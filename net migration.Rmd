@@ -27,9 +27,6 @@ nm_IL<-nm%>%
   filter(stname=="Illinois")
 ```
 
-
-
-
 For Metro counties only:
 ```{r 1980-2000s metro}
 nm_metro<-read.csv("/Users/liqingli/Dropbox/WTP for urban parks/Data/WTP/location choice/1980-2000_metro/netmigration_1537759824444.csv")
@@ -166,7 +163,7 @@ IL_min_1980
 
 
 State-ND: the counties with max and min net migration rate
-```{r}
+```{r include = FALSE}
 nm_ND_metro<-nm_metro%>%
   filter(stname=="North Dakota")
 nm_ND_metro_dt<-as.data.table(nm_ND_metro)
@@ -201,7 +198,7 @@ ND_min_1980
 ```
 State-colorado: the counties with max and min net migration rate
 
-```{r}
+```{r include = FALSE}
 
 nm_CO_metro<-nm_metro%>%
   filter(stname=="Colorado")
