@@ -1,0 +1,240 @@
+---
+title: "Relationship between early life experience and WTP for conservation "
+author: "Liqing"
+date: "9/23/2018"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Surey location choice - Net migration rate
+data:https://netmigration.wisc.edu/
+
+```{r library}
+library(dplyr)
+library(data.table)
+
+```
+
+
+1980-2000 all counties
+```{r 1980-2000 all counties}
+nm<-read.csv("/Users/liqingli/Dropbox/WTP for urban parks/Data/WTP/location choice/1980-2000_all/netmigration_1538669685697.csv")
+
+nm_IL<-nm%>%
+  filter(stname=="Illinois")
+```
+
+
+
+
+For Metro counties only:
+```{r 1980-2000s metro}
+nm_metro<-read.csv("/Users/liqingli/Dropbox/WTP for urban parks/Data/WTP/location choice/1980-2000_metro/netmigration_1537759824444.csv")
+
+```
+State IL with high and low net migration rates
+```{r}
+#d[order(d$V4,decreasing=T)[1:5],]
+nm_IL_metro<-nm_metro%>%
+  filter(stname=="Illinois")
+nm_IL_metro_dt<-as.data.table(nm_IL_metro)
+# Top 5
+IL_2000_t5=nm_IL_metro_dt[order(total_2000,decreasing = T)[1:5],][,c("name","total_2000")]
+IL_2000_t5
+
+IL_1990_t5=nm_IL_metro_dt[order(total_1990,decreasing = T)[1:5],][,c("name","total_1990")]
+IL_1990_t5
+
+IL_1980_t5=nm_IL_metro_dt[order(total_1980,decreasing = T)[1:5],][,c("name","total_1980")]
+IL_1980_t5
+
+#Last 5
+nm_IL_metro_dt= nm_IL_metro_dt[,total_2000.abs:=abs(total_2000)]
+nm_IL_metro_dt= nm_IL_metro_dt[,total_1990.abs:=abs(total_1990)]
+nm_IL_metro_dt= nm_IL_metro_dt[,total_1980.abs:=abs(total_1980)]
+
+IL_2000_b5=nm_IL_metro_dt[order(total_2000.abs)[1:5],][,c("name","total_2000.abs")]
+IL_2000_b5
+
+IL_1990_b5=nm_IL_metro_dt[order(total_1990.abs)[1:5],][,c("name","total_1990.abs")]
+IL_1990_b5
+
+IL_1980_b5=nm_IL_metro_dt[order(total_1980.abs)[1:5],][,c("name","total_1980.abs")]
+IL_1980_b5
+```
+
+State Iowa with high and low net migration rates
+```{r}
+
+nm_IA_metro<-nm_metro%>%
+  filter(stname=="Iowa")
+nm_IA_metro_dt<-as.data.table(nm_IA_metro)
+# Top 5
+IA_2000_t5=nm_IA_metro_dt[order(total_2000,decreasing = T)[1:5],][,c("name","total_2000")]
+IA_2000_t5
+
+IA_1990_t5=nm_IA_metro_dt[order(total_1990,decreasing = T)[1:5],][,c("name","total_1990")]
+IA_1990_t5
+
+IA_1980_t5=nm_IA_metro_dt[order(total_1980,decreasing = T)[1:5],][,c("name","total_1980")]
+IA_1980_t5
+
+#Last 5
+nm_IA_metro_dt= nm_IA_metro_dt[,total_2000.abs:=abs(total_2000)]
+nm_IA_metro_dt= nm_IA_metro_dt[,total_1990.abs:=abs(total_1990)]
+nm_IA_metro_dt= nm_IA_metro_dt[,total_1980.abs:=abs(total_1980)]
+
+IA_2000_b5=nm_IA_metro_dt[order(total_2000.abs)[1:5],][,c("name","total_2000.abs")]
+IA_2000_b5
+
+IA_1990_b5=nm_IA_metro_dt[order(total_1990.abs)[1:5],][,c("name","total_1990.abs")]
+IA_1990_b5
+
+IA_1980_b5=nm_IA_metro_dt[order(total_1980.abs)[1:5],][,c("name","total_1980.abs")]
+IA_1980_b5
+```
+
+State Minnesota with high and low net migration rates
+```{r}
+
+nm_MN_metro<-nm_metro%>%
+  filter(stname=="Minnesota")
+nm_MN_metro_dt<-as.data.table(nm_MN_metro)
+# Top 5
+MN_2000_t5=nm_MN_metro_dt[order(total_2000,decreasing = T)[1:5],][,c("name","total_2000")]
+MN_2000_t5
+
+MN_1990_t5=nm_MN_metro_dt[order(total_1990,decreasing = T)[1:5],][,c("name","total_1990")]
+MN_1990_t5
+
+MN_1980_t5=nm_MN_metro_dt[order(total_1980,decreasing = T)[1:5],][,c("name","total_1980")]
+MN_1980_t5
+
+#Last 5
+nm_MN_metro_dt= nm_MN_metro_dt[,total_2000.abs:=abs(total_2000)]
+nm_MN_metro_dt= nm_MN_metro_dt[,total_1990.abs:=abs(total_1990)]
+nm_MN_metro_dt= nm_MN_metro_dt[,total_1980.abs:=abs(total_1980)]
+
+MN_2000_b5=nm_MN_metro_dt[order(total_2000.abs)[1:5],][,c("name","total_2000.abs")]
+MN_2000_b5
+
+MN_1990_b5=nm_MN_metro_dt[order(total_1990.abs)[1:5],][,c("name","total_1990.abs")]
+MN_1990_b5
+
+MN_1980_b5=nm_MN_metro_dt[order(total_1980.abs)[1:5],][,c("name","total_1980.abs")]
+MN_1980_b5
+```
+
+State-IL: the counties with max and min net migration rate
+```{r}
+## Max
+
+IL_max_2000 = nm_IL_metro_dt[total_2000==max(total_2000),.(total_2000, name)]
+IL_max_2000 
+
+IL_max_1990 = nm_IL_metro_dt[total_1990==max(total_1990),.(total_1990, name)]
+IL_max_1990 
+
+IL_max_1980 = nm_IL_metro_dt[total_1980==max(total_1980),.(total_1980, name)]
+IL_max_1980 
+
+##Min
+nm_IL_metro_dt= nm_IL_metro_dt[,total_2000.abs:=abs(total_2000)]
+nm_IL_metro_dt= nm_IL_metro_dt[,total_1990.abs:=abs(total_1990)]
+nm_IL_metro_dt= nm_IL_metro_dt[,total_1980.abs:=abs(total_1980)]
+
+IL_min_2000 = nm_IL_metro_dt[total_2000.abs==min(total_2000.abs),.(total_2000.abs, name)]
+IL_min_2000 
+
+IL_min_1990 = nm_IL_metro_dt[total_1990.abs==min(total_1990.abs),.(total_1990.abs, name)]
+
+IL_min_1990 
+
+IL_min_1980 = nm_IL_metro_dt[total_1980.abs==min(total_1980.abs),.(total_1980.abs, name)]
+IL_min_1980 
+
+
+```
+
+
+
+
+
+
+
+State-ND: the counties with max and min net migration rate
+```{r}
+nm_ND_metro<-nm_metro%>%
+  filter(stname=="North Dakota")
+nm_ND_metro_dt<-as.data.table(nm_ND_metro)
+
+## Max
+
+ND_max_2000 = nm_ND_metro_dt[total_2000==max(total_2000),.(total_2000, name)]
+ND_max_2000 
+
+ND_max_1990 = nm_ND_metro_dt[total_1990==max(total_1990),.(total_1990, name)]
+ND_max_1990 
+
+ND_max_1980 = nm_ND_metro_dt[total_1980==max(total_1980),.(total_1980, name)]
+ND_max_1980 
+
+##Min
+nm_ND_metro_dt= nm_ND_metro_dt[,total_2000.abs:=abs(total_2000)]
+nm_ND_metro_dt= nm_ND_metro_dt[,total_1990.abs:=abs(total_1990)]
+nm_ND_metro_dt= nm_ND_metro_dt[,total_1980.abs:=abs(total_1980)]
+
+ND_min_2000 = nm_ND_metro_dt[total_2000.abs==min(total_2000.abs),.(total_2000.abs, name)]
+ND_min_2000 
+
+ND_min_1990 = nm_ND_metro_dt[total_1990.abs==min(total_1990.abs),.(total_1990.abs, name)]
+
+ND_min_1990 
+
+ND_min_1980 = nm_ND_metro_dt[total_1980.abs==min(total_1980.abs),.(total_1980.abs, name)]
+ND_min_1980 
+
+
+```
+State-colorado: the counties with max and min net migration rate
+
+```{r}
+
+nm_CO_metro<-nm_metro%>%
+  filter(stname=="Colorado")
+
+nm_CO_metro_dt<-as.data.table(nm_CO_metro)
+
+nm_CO_metro_dt=na.omit(nm_CO_metro_dt)
+## Max
+
+CO_max_2000 = nm_CO_metro_dt[total_2000==max(total_2000),.(total_2000, name)]
+CO_max_2000 
+
+CO_max_1990 = nm_CO_metro_dt[total_1990==max(total_1990),.(total_1990, name)]
+CO_max_1990 
+
+CO_max_1980 = nm_CO_metro_dt[total_1980==max(total_1980),.(total_1980, name)]
+CO_max_1980 
+
+##Min
+nm_CO_metro_dt= nm_CO_metro_dt[,total_2000.abs:=abs(total_2000)]
+nm_CO_metro_dt= nm_CO_metro_dt[,total_1990.abs:=abs(total_1990)]
+nm_CO_metro_dt= nm_CO_metro_dt[,total_1980.abs:=abs(total_1980)]
+
+CO_min_2000 = nm_CO_metro_dt[total_2000.abs==min(total_2000.abs),.(total_2000.abs, name)]
+CO_min_2000 
+
+CO_min_1990 = nm_CO_metro_dt[total_1990.abs==min(total_1990.abs),.(total_1990.abs, name)]
+
+CO_min_1990 
+
+CO_min_1980 = nm_CO_metro_dt[total_1980.abs==min(total_1980.abs),.(total_1980.abs, name)]
+CO_min_1980 
+
+
+```
+
